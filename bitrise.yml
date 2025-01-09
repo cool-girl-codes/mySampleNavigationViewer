@@ -12,7 +12,7 @@ workflows:
     workflows:
     - run_tests:
         filters:
-          - pull_request: "*"
+          - pull_request: master
     - build_apk:
         filters:
           - branch: master
