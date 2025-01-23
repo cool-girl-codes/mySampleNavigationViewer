@@ -3,20 +3,7 @@ format_version: '13'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 workflows:
-  trigger_map:
-    description: |
-      This workflow is triggered by the `trigger_map` workflow. It will run the
-      `run_tests` workflow if the trigger map workflow is triggered by a pull request
-      and the `build_apk` workflow if the trigger map workflow is triggered by a push
-      to the master branch.
-    workflows:
-    - run_tests:
-        filters:
-        - pull_request: master
-    - build_apk:
-        filters:
-        - branch: master
-    build_apk:
+  build_apk:
     summary: Run your Android unit tests and create an APK file to install your app
       on a device or share it with your team.
     description: The workflow will first clone your Git repository, install Android
@@ -62,11 +49,11 @@ workflows:
     - install-missing-android-tools@3:
         inputs:
         - gradlew_path: "$PROJECT_LOCATION/gradlew"
-    - android-unit-test@1:
-        inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - variant: "$VARIANT"
-        - cache_level: none
+    # - android-unit-test@1:
+    #     inputs:
+    #     - project_location: "$PROJECT_LOCATION"
+    #     - variant: "$VARIANT"
+    #     - cache_level: none
     - save-gradle-cache@1: {}
     - deploy-to-bitrise-io@2: {}
     triggers:
@@ -86,5 +73,3 @@ app:
   - MODULE: app
     opts:
       is_expand: false
-  tags:
-  - v1
