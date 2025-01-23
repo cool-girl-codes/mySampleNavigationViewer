@@ -58,7 +58,7 @@ workflows:
     - deploy-to-bitrise-io@2: {}
     triggers:
       push:
-      - branch: master
+      - branch: "*"
       pull_request:
       - source_branch: "*"
 meta:
