@@ -37,6 +37,15 @@ workflows:
     - sign-apk@1:
         run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
     - deploy-to-bitrise-io@2: {}
+  print_config:
+    steps:
+    - script:
+        inputs:
+        - content: "echo 'Hello World!'"   
+    triggers:
+      push:
+      - branch: "*"
+
   run_tests:
     summary: Run your Android unit tests and get the test report.
     description: The workflow will first clone your Git repository, cache your Gradle
