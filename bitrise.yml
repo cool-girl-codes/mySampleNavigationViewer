@@ -41,7 +41,7 @@ workflows:
     steps:
     - script:
         inputs:
-        - content: "echo 'Hello World!'"   
+        - content: "echo 'Hello Again!'"   
     triggers:
       push:
       - branch: "*"
