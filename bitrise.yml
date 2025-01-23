@@ -13,6 +13,9 @@ workflows:
     - run_tests:
         filters:
           - pull_request: master
+    - build_apk:
+        filters:
+          - push: *
     - run_tests :
         filters:
           - branch: *
