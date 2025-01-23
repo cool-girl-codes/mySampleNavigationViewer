@@ -12,14 +12,11 @@ workflows:
     workflows:
     - run_tests:
         filters:
-          - pull_request: master
+        - pull_request: master
     - build_apk:
         filters:
-          - push: "*"
-    - run_tests :
-        filters:
-          - branch: "*"
-  build_apk:
+        - branch: master
+    build_apk:
     summary: Run your Android unit tests and create an APK file to install your app
       on a device or share it with your team.
     description: The workflow will first clone your Git repository, install Android
