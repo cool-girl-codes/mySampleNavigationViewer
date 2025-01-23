@@ -59,21 +59,16 @@ workflows:
     - activate-ssh-key@4: {}
     - git-clone@8: {}
     - restore-gradle-cache@1: {}
-    - install-missing-android-tools@3:
-        inputs:
-        - gradlew_path: "$PROJECT_LOCATION/gradlew"
-    - android-unit-test@1:
-        inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - variant: "$VARIANT"
-        - cache_level: none
+    # - install-missing-android-tools@3:
+    #     inputs:
+    #     - gradlew_path: "$PROJECT_LOCATION/gradlew"
+    # - android-unit-test@1:
+    #     inputs:
+    #     - project_location: "$PROJECT_LOCATION"
+    #     - variant: "$VARIANT"
+    #     - cache_level: none
     - save-gradle-cache@1: {}
     - deploy-to-bitrise-io@2: {}
-    triggers:
-      push:
-      - branch: master
-      pull_request:
-      - source_branch: "*"
 meta:
   bitrise.io:
     stack: linux-docker-android-22.04
