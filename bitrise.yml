@@ -45,6 +45,14 @@ workflows:
     triggers:
       push:
       - branch: "*"
+  print_config_2:
+    steps:
+    - script:
+        inputs:
+        - content: "echo 'Hello World!'"   
+    triggers:
+      push:
+      - branch: "*"
 
   run_tests:
     summary: Run your Android unit tests and get the test report.
@@ -67,7 +75,7 @@ workflows:
     - deploy-to-bitrise-io@2: {}
     triggers:
       push:
-      - branch: "*"
+      - branch: "master"
       pull_request:
       - source_branch: "*"
 meta:
