@@ -12,11 +12,13 @@ workflows:
     workflows:
     - run_tests:
         filters:
-        - pull_request: master
-        - condition: '{{enveq "TEST" "true"}}'
+          - pull_request: master
     - build_apk:
         filters:
-        - branch: master
+          - push: "*"
+    - run_tests :
+        filters:
+          - branch: "*"
   build_apk:
     summary: Run your Android unit tests and create an APK file to install your app
       on a device or share it with your team.
@@ -56,7 +58,6 @@ workflows:
     description: The workflow will first clone your Git repository, cache your Gradle
       dependencies, install Android tools, run your Android unit tests and save the
       test report.
-    run_if: '{{enveq "TEST" "true"}}'
     steps:
     - activate-ssh-key@4: {}
     - git-clone@8: {}
@@ -71,60 +72,11 @@ workflows:
         - cache_level: none
     - save-gradle-cache@1: {}
     - deploy-to-bitrise-io@2: {}
-    - script@1: {}
-    inputs:
-    - content: |
-        #!/bin/bash
-        echo "TEST is set to: $TEST"
     triggers:
       push:
       - branch: master
       pull_request:
       - source_branch: "*"
-  test_conditions:
-    summary: A workflow to test different environment variable conditions in the script
-    description: 'This workflow will test conditions based on environment variables.
-
-      '
-    steps:
-    - script@1:
-        inputs:
-        - content: |
-            #!/bin/bash
-            # Print all environment variables for debugging
-            echo "TEST1: $TEST1"
-            echo "TEST2: $TEST2"
-            echo "TEST3: $TEST3"
-            echo "TEST4: $TEST4"
-
-            # Test if TEST1 is set to 'true'
-            if [ "$TEST1" == "true" ]; then
-              echo "TEST1 is true, running step!"
-            else
-              echo "TEST1 is not true, skipping step."
-            fi
-
-            # Test if TEST2 is set to 'false'
-            if [ "$TEST2" == "false" ]; then
-              echo "TEST2 is false, running step!"
-            else
-              echo "TEST2 is not false, skipping step."
-            fi
-
-            # Check if TEST3 is set and not empty
-            if [ -z "$TEST3" ]; then
-              echo "TEST3 is not set or is empty, skipping step!"
-            else
-              echo "TEST3 is set to: $TEST3"
-            fi
-
-            # Check if TEST4 is empty or not
-            if [ -z "$TEST4" ]; then
-              echo "TEST4 is not set or is empty!"
-            else
-              echo "TEST4 is set to: $TEST4"
-            fi
-        - is_debug: 'yes'
 meta:
   bitrise.io:
     stack: linux-docker-android-22.04
@@ -137,11 +89,5 @@ app:
   - MODULE: app
     opts:
       is_expand: false
-  - opts:
-      is_expand: false
-    TEST1: 'true'
-  - opts:
-      is_expand: false
-    TEST2: 'false'
   tags:
   - v1
